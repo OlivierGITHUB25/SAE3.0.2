@@ -2,29 +2,33 @@ import sys
 import socket
 
 host = ""
-port = 7776
+port = 7777
 
 def Serveur():
     server_socket = socket.socket()
     server_socket.bind((host, port))
     server_socket.listen(1)
-    data = ""
+    msg = ""
     reply = ""
-    while True:
+    while msg != "kill":
+        print("En attente du client")
         conn, address = server_socket.accept()
+        print(f"Client connecté {address}")
 
-        if data == "exit" or data == "bye":
-            break
-
-        while data != "exit" and data != "bye" and reply != "exit" and reply != "bye":
-            data = conn.recv(1024).decode()
-            print(data)
-            reply = input("Réponse:")
+        msg = ""
+        while msg != "kill" and msg != "disconect" and msg != "reset":
+            msg = conn.recv(1024).decode()
+            print(msg)
+            reply = msg
             conn.send(reply.encode())
 
 
 
         conn.close()
+        print("fermeture de la connexion")
+
+    server_socket.close()
+    print("fermeture du serveur")
 
 
 if __name__ == '__main__':

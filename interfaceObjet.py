@@ -17,6 +17,12 @@ class MainWindow(QMainWindow):
         self.lbl = QLabel(self)
         self.lbl.setText("sélectionner l'ip de votre serveur:")
 
+        self.lbl3 = QLabel(self)
+        self.lbl3.setText("IP:")
+
+        self.lbl4 = QLabel(self)
+        self.lbl4.setText("PORT:")
+
         self.champ = QLineEdit(self)
         self.champ3 = QLineEdit(self)
 
@@ -41,15 +47,17 @@ class MainWindow(QMainWindow):
         self.affichage = QTextBrowser(self)
 
         #placement
-        grid.addWidget(self.lbl, 1, 1)
-        grid.addWidget(self.champ, 1, 2)
-        grid.addWidget(self.champ3, 1, 3)
-        grid.addWidget(self.bouton, 1, 4)
-        grid.addWidget(self.bouton2, 1, 5)
-        grid.addWidget(self.lbl2, 2, 1)
-        grid.addWidget(self.champ2, 2, 2)
-        grid.addWidget(self.bouton3, 2, 3)
-        grid.addWidget(self.affichage, 3, 2)
+        grid.addWidget(self.lbl3, 1, 2)
+        grid.addWidget(self.lbl4, 1, 3)
+        grid.addWidget(self.lbl, 2, 1)
+        grid.addWidget(self.champ, 2, 2)
+        grid.addWidget(self.champ3, 2, 3)
+        grid.addWidget(self.bouton, 2, 4)
+        grid.addWidget(self.bouton2, 2, 5)
+        grid.addWidget(self.lbl2, 3, 1)
+        grid.addWidget(self.champ2, 3, 2)
+        grid.addWidget(self.bouton3, 3, 3)
+        grid.addWidget(self.affichage, 4, 2)
 
 
 

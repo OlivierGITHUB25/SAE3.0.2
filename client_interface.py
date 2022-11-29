@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton
 
 def action():
-    #text = qline.text()
+    text = qline.text()
     print("tu fais quoi")
     mylabel.setText("tu fais quoi")
 
@@ -14,12 +14,12 @@ win.setWindowTitle("mon app")
 win.setGeometry(100, 100, 600, 300)
 
 mylabel = QLabel(win)
-mylabel.setText("do you mean pow ?")
+mylabel.setText(action(text))
 # mylabel.setGeometry(220, 100, 300, 50)
 
-#qline = QLineEdit(win)
-#qline.setGeometry(50, 100, 150, 20)
-#qline.textChanged.connect(action)
+qline = QLineEdit(win)
+qline.setGeometry(50, 100, 150, 20)
+qline.textChanged.connect(action)
 
 qBTN = QPushButton(win)
 qBTN.setText("push moi")

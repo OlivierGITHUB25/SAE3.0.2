@@ -1,17 +1,17 @@
 import sys
 import socket
 
-host = "192.168.0.5"
-port = 7776
+host = "192.168.75.1"
+port = 7777
 
 def Client():
     client_socket = socket.socket()
     client_socket.connect((host, port))
-    message = ""
+    msg = ""
 
-    while message != "exit" and message != "bye":
-        message = input("envoyé:")
-        client_socket.send(message.encode())
+    while msg != "exit" and msg != "bye":
+        msg = input("envoyé:")
+        client_socket.send(msg.encode())
         data = client_socket.recv(1024).decode()
         print(data)
 
