@@ -1,5 +1,6 @@
 import sys
 import socket
+import psutil
 
 host = ""
 port = 7777
@@ -19,8 +20,17 @@ def Serveur():
         while msg != "kill" and msg != "disconect" and msg != "reset":
             msg = conn.recv(1024).decode()
             print(msg)
-            reply = msg
-            conn.send(reply.encode())
+            if msg == "ram":
+                reply = str(psutil.virtual_memory().percent)
+                conn.send(reply.encode())
+
+            elif msg == "cpu":
+                reply = str(psutil.cpu_percent())
+                conn.send(reply.encode())
+
+            else:
+             reply = msg
+             conn.send(reply.encode())
 
 
 
