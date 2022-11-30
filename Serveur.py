@@ -1,6 +1,7 @@
 import sys
 import socket
 import psutil
+import os
 
 host = ""
 port = 7777
@@ -29,8 +30,11 @@ def Serveur():
                 conn.send(reply.encode())
 
             else:
-             reply = msg
-             conn.send(reply.encode())
+                reply = msg
+                conn.send(reply.encode())
+
+
+
 
 
 

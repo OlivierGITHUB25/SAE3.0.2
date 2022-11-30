@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMainWindow, QComboBox, QGridLayout, QMessageBox, QTextBrowser
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMainWindow, QComboBox, QGridLayout, QMessageBox, QTextBrowser, QTextEdit
+import socket
 
 class MainWindow(QMainWindow):
 
@@ -9,6 +10,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
         grid = QGridLayout()
         widget.setLayout(grid)
+        self.client_socket = None
 
         # Titre fenêtre
         self.setWindowTitle("Monitoring")
@@ -28,6 +30,7 @@ class MainWindow(QMainWindow):
 
         self.bouton = QPushButton(self)
         self.bouton.setText("Connecter")
+        self.bouton.clicked.connect(self.connect)
 
         self.bouton2 = QPushButton(self)
         self.bouton2.setText("deconnecter")
@@ -41,10 +44,12 @@ class MainWindow(QMainWindow):
 
         self.bouton3 = QPushButton(self)
         self.bouton3.setText("envoyer")
+        self.bouton3.clicked.connect(self.envoyer)
 
 
         #Résultat
-        self.affichage = QTextBrowser(self)
+        self.affichage = QTextEdit(self)
+        self.affichage.setReadOnly(True)
 
         #placement
         grid.addWidget(self.lbl3, 1, 2)
@@ -58,6 +63,23 @@ class MainWindow(QMainWindow):
         grid.addWidget(self.champ2, 3, 2)
         grid.addWidget(self.bouton3, 3, 3)
         grid.addWidget(self.affichage, 4, 2)
+
+    def connect(self):
+        host = self.champ.text()
+        port = int(self.champ3.text())
+        print (f"{host} et {port}")
+        self.client_socket = socket.socket()
+        self.client_socket.connect((host, port))
+
+    def envoyer(self):
+        msg = self.champ2.text()
+
+        self.client_socket.send(msg.encode())
+        data = self.client_socket.recv(1024).decode()
+        self.affichage.append(data)
+
+
+
 
 
 
