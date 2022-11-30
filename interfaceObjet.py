@@ -34,6 +34,7 @@ class MainWindow(QMainWindow):
 
         self.bouton2 = QPushButton(self)
         self.bouton2.setText("deconnecter")
+        self.bouton2.clicked.connect(self.deconnecter)
 
 
         # commande
@@ -48,6 +49,8 @@ class MainWindow(QMainWindow):
 
 
         #Résultat
+        self.lbl6 =QLabel(self)
+        self.lbl6.setText("Résultat:")
         self.affichage = QTextEdit(self)
         self.affichage.setReadOnly(True)
 
@@ -62,21 +65,27 @@ class MainWindow(QMainWindow):
         grid.addWidget(self.lbl2, 3, 1)
         grid.addWidget(self.champ2, 3, 2)
         grid.addWidget(self.bouton3, 3, 3)
-        grid.addWidget(self.affichage, 4, 2)
+        grid.addWidget(self.lbl6, 4, 1)
+        grid.addWidget(self.affichage, 5, 1,2,5)
 
     def connect(self):
         host = self.champ.text()
         port = int(self.champ3.text())
-        print (f"{host} et {port}")
         self.client_socket = socket.socket()
         self.client_socket.connect((host, port))
+        self.affichage.append(f"client connecter sur {host} et {port}")
 
     def envoyer(self):
         msg = self.champ2.text()
 
         self.client_socket.send(msg.encode())
         data = self.client_socket.recv(1024).decode()
-        self.affichage.append(data)
+        self.affichage.append(f"{msg}:\n{data}")
+
+    def deconnecter(self):
+        msg = "disconect"
+        self.client_socket.send(msg.encode())
+        self.affichage.append("client deconnecter")
 
 
 
