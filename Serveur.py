@@ -4,7 +4,7 @@ import psutil
 import os
 import platform
 
-host = ""
+host = "0.0.0.0"
 port = 7777
 
 def Serveur():
@@ -13,7 +13,6 @@ def Serveur():
         server_socket.bind((host, port))
         server_socket.listen(1)
         msg = ""
-        reply = ""
         while msg != "kill" and msg != "reset":
             print("En attente du client")
             conn, address = server_socket.accept()
@@ -24,24 +23,29 @@ def Serveur():
                 msg = conn.recv(1024).decode()
                 print(msg)
                 if msg == "ram":
-                    reply = str(psutil.virtual_memory().percent)
+                    reply = str(f"ram:{psutil.virtual_memory().percent}%")
                     conn.send(reply.encode())
 
                 elif msg == "cpu":
-                    reply = str(psutil.cpu_percent())
+                    reply = str(f"cpu:{psutil.cpu_percent()}%")
                     conn.send(reply.encode())
 
-                if msg == "os":
+                elif msg == "os":
                     reply = str(platform.system())
                     conn.send(reply.encode())
 
-
-                else:
-                    reply = msg
+                elif msg == "ip":
+                    reply = str(socket.gethostbyname(socket.gethostname()))
                     conn.send(reply.encode())
 
-
-
+                else:
+                    rep = os.popen(msg)
+                    reply = rep.read()
+                    if reply == "":
+                        reply = "erreur syntaxe"
+                        conn.send(reply.encode())
+                    else:
+                        conn.send(reply.encode())
 
 
 

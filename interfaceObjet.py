@@ -1,5 +1,4 @@
 import sys
-
 from PyQt5.QtGui import QCloseEvent
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMainWindow, QComboBox, QGridLayout, QMessageBox, QTextBrowser, QTextEdit
 import socket
@@ -78,7 +77,7 @@ class MainWindow(QMainWindow):
         grid.addWidget(self.champ2, 3, 2)
         grid.addWidget(self.bouton3, 3, 3)
         grid.addWidget(self.lbl6, 4, 1)
-        grid.addWidget(self.affichage, 7, 1,2,5)
+        grid.addWidget(self.affichage, 5,1,2,7)
 
     def connect(self):
         host = self.champ.text()
@@ -92,7 +91,7 @@ class MainWindow(QMainWindow):
 
         self.client_socket.send(msg.encode())
         data = self.client_socket.recv(1024).decode()
-        self.affichage.append(f"{msg}:\n\n{data}")
+        self.affichage.append(f"{data}")
 
     def deconnecter(self):
         msg = "disconect"
@@ -109,7 +108,7 @@ class MainWindow(QMainWindow):
         self.client_socket.send(msg.encode())
         self.affichage.append("serveur reset")
 
-    def closeEvent(self):
+    def closeEvent(self, _e: QCloseEvent):
         msg = "disconect"
         self.client_socket.send(msg.encode())
 
