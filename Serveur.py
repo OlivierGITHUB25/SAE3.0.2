@@ -2,6 +2,7 @@ import sys
 import socket
 import psutil
 import os
+import platform
 
 host = ""
 port = 7777
@@ -29,6 +30,11 @@ def Serveur():
                 elif msg == "cpu":
                     reply = str(psutil.cpu_percent())
                     conn.send(reply.encode())
+
+                if msg == "os":
+                    reply = str(platform.system())
+                    conn.send(reply.encode())
+
 
                 else:
                     reply = msg

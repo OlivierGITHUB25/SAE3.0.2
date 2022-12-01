@@ -1,4 +1,6 @@
 import sys
+
+from PyQt5.QtGui import QCloseEvent
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMainWindow, QComboBox, QGridLayout, QMessageBox, QTextBrowser, QTextEdit
 import socket
 
@@ -36,6 +38,14 @@ class MainWindow(QMainWindow):
         self.bouton2.setText("deconnecter")
         self.bouton2.clicked.connect(self.deconnecter)
 
+        self.bouton4 = QPushButton(self)
+        self.bouton4.setText("kill")
+        self.bouton4.clicked.connect(self.kill)
+
+        self.bouton5 = QPushButton(self)
+        self.bouton5.setText("reset")
+        self.bouton5.clicked.connect(self.reset)
+
 
         # commande
         self.lbl2 = QLabel(self)
@@ -62,33 +72,46 @@ class MainWindow(QMainWindow):
         grid.addWidget(self.champ3, 2, 3)
         grid.addWidget(self.bouton, 2, 4)
         grid.addWidget(self.bouton2, 2, 5)
+        grid.addWidget(self.bouton4, 2, 6)
+        grid.addWidget(self.bouton5, 2, 7)
         grid.addWidget(self.lbl2, 3, 1)
         grid.addWidget(self.champ2, 3, 2)
         grid.addWidget(self.bouton3, 3, 3)
         grid.addWidget(self.lbl6, 4, 1)
-        grid.addWidget(self.affichage, 5, 1,2,5)
+        grid.addWidget(self.affichage, 7, 1,2,5)
 
     def connect(self):
         host = self.champ.text()
         port = int(self.champ3.text())
         self.client_socket = socket.socket()
         self.client_socket.connect((host, port))
-        self.affichage.append(f"client connecter sur {host} et {port}")
+        self.affichage.append(f"client connecté sur {host} et {port}")
 
     def envoyer(self):
         msg = self.champ2.text()
 
         self.client_socket.send(msg.encode())
         data = self.client_socket.recv(1024).decode()
-        self.affichage.append(f"{msg}:\n{data}")
+        self.affichage.append(f"{msg}:\n\n{data}")
 
     def deconnecter(self):
         msg = "disconect"
         self.client_socket.send(msg.encode())
         self.affichage.append("client deconnecter")
 
+    def kill(self):
+        msg="kill"
+        self.client_socket.send(msg.encode())
+        self.affichage.append("serveur kill")
 
+    def reset(self):
+        msg="reset"
+        self.client_socket.send(msg.encode())
+        self.affichage.append("serveur reset")
 
+    def closeEvent(self):
+        msg = "disconect"
+        self.client_socket.send(msg.encode())
 
 
 
