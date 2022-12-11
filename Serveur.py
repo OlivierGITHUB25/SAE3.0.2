@@ -22,32 +22,79 @@ def Serveur():
             while msg != "kill" and msg != "disconect" and msg != "reset":
                 msg = conn.recv(1024).decode()
                 print(msg)
-                if msg == "ram":
+                resultat = msg.split(":", 1)
+                try :
+                    msgt = resultat[1]
+                    mode = resultat[0]
+                except:
+                    msgt = msg
+
+                if msgt == "ram":
                     reply = str(f"ram:{psutil.virtual_memory().percent}%")
                     conn.send(reply.encode())
 
-                elif msg == "cpu":
+                elif msgt == "cpu":
                     reply = str(f"cpu:{psutil.cpu_percent()}%")
                     conn.send(reply.encode())
 
-                elif msg == "os":
+                elif msgt == "os":
                     reply = str(platform.system())
                     conn.send(reply.encode())
 
-                elif msg == "ip":
+                elif msgt == "ip":
                     reply = str(socket.gethostbyname(socket.gethostname()))
                     conn.send(reply.encode())
 
+                elif mode == "powershell":
+                    ostest  = str(platform.system())
+                    if ostest == "Windows":
+                        rep = os.popen(f"powershell {msgt}")
+                        reply = rep.read()
+                        if reply == "":
+                            reply = "erreur syntaxe"
+                            conn.send(reply.encode())
+                        else:
+                            conn.send(reply.encode())
+                    else:
+                        reply = "cette os n'est pas compatible avec powershell !!!"
+                        conn.send(reply.encode())
+
+                elif mode == "linux":
+                    ostest  = str(platform.system())
+                    if ostest == "Linux":
+                        rep = os.popen(f"{msgt}")
+                        reply = rep.read()
+                        if reply == "":
+                            reply = "erreur syntaxe"
+                            conn.send(reply.encode())
+                        else:
+                            conn.send(reply.encode())
+                    else:
+                        reply = "cette os n'est pas linux !!!"
+                        conn.send(reply.encode())
+
+                elif mode == "windows":
+                    ostest = str(platform.system())
+                    if ostest == "Windows":
+                        rep = os.popen(f"{msgt}")
+                        reply = rep.read()
+                        if reply == "":
+                            reply = "erreur syntaxe"
+                            conn.send(reply.encode())
+                        else:
+                            conn.send(reply.encode())
+                    else:
+                        reply = "cette os n'est pas windows !!!"
+                        conn.send(reply.encode())
+
                 else:
-                    rep = os.popen(msg)
+                    rep = os.popen(msgt)
                     reply = rep.read()
                     if reply == "":
                         reply = "erreur syntaxe"
                         conn.send(reply.encode())
                     else:
                         conn.send(reply.encode())
-
-
 
             conn.close()
             print("fermeture de la connexion")
