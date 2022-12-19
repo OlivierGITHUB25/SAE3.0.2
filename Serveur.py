@@ -20,14 +20,18 @@ def Serveur():
 
             msg = ""
             while msg != "kill" and msg != "disconect" and msg != "reset":
-                msg = conn.recv(1024).decode()
+                msg = conn.recv(4096).decode()
                 print(msg)
                 resultat = msg.split(":", 1)
-                try :
+                try:
                     msgt = resultat[1]
                     mode = resultat[0]
                 except:
                     msgt = msg
+                    mode = "none"
+                else:
+                    msgt = resultat[1]
+                    mode = resultat[0]
 
                 if msgt == "ram":
                     reply = str(f"ram:{psutil.virtual_memory().percent}%")
@@ -88,13 +92,9 @@ def Serveur():
                         conn.send(reply.encode())
 
                 else:
-                    rep = os.popen(msgt)
-                    reply = rep.read()
-                    if reply == "":
-                        reply = "erreur syntaxe"
-                        conn.send(reply.encode())
-                    else:
-                        conn.send(reply.encode())
+                    reply = "veuillez tapez le commande de la manière suivante (nom de l'os:commande)"
+                    conn.send(reply.encode())
+
 
             conn.close()
             print("fermeture de la connexion")

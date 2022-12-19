@@ -90,7 +90,7 @@ class MainWindow(QMainWindow):
         msg = self.champ2.text()
 
         self.client_socket.send(msg.encode())
-        data = self.client_socket.recv(1024).decode()
+        data = self.client_socket.recv(4096).decode()
         self.affichage.append(f"{data}")
 
     def deconnecter(self):

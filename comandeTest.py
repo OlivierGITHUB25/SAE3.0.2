@@ -7,10 +7,23 @@ import platform
 #import netifacespip
 #txt = "welcome to the jungle"
 
-txt = "powershellmabitegg"
-x = txt.split(":", 1)
+#txt = "powershellmabitegg"
+#x = txt.split(":", 1)
+x="test"
+#print(x)
+msg = "testtest"
+resultat = msg.split(":", 1)
 
-print(x)
+try:
+    msgt = resultat[1]
+    mode = resultat[0]
+except:
+    msgt = msg
+    print("pas cool")
+else:
+    msgt = resultat[1]
+    mode = resultat[0]
+    print("cool")
 
 #var="C:"
 
