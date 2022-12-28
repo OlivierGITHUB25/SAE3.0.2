@@ -95,7 +95,7 @@ def Serveur():
                         conn.send(reply.encode())
                 else:
                     reply = "veuillez tapez le commande de la manière suivante (nom de l'os:commande)"
-                    conn.send(reply.encode())
+                    conn.send(reply.encode("cp1252", errors='replace'))
 
 
             conn.close()
