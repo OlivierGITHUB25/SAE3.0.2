@@ -87,11 +87,17 @@ class MainWindow(QMainWindow):
         self.affichage.append(f"client connecté sur {host} et {port}")
 
     def envoyer(self):
-        msg = self.champ2.text()
-
-        self.client_socket.send(msg.encode())
-        data = self.client_socket.recv(4096).decode()
-        self.affichage.append(f"{data}")
+        msg = ""
+        try:
+            msg = "test"
+            self.client_socket.send(msg.encode())
+        except:
+            self.affichage.append(f"erreur envoi")
+        else:
+            msg = self.champ2.text()
+            self.client_socket.send(msg.encode())
+            data = self.client_socket.recv(8192).decode("cp850")
+            self.affichage.append(f"{data}")
 
     def deconnecter(self):
         msg = "disconect"

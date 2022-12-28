@@ -11,18 +11,15 @@ import platform
 #x = txt.split(":", 1)
 x="test"
 #print(x)
-msg = "testtest"
+msg = ""
 resultat = msg.split(":", 1)
 
 try:
-    msgt = resultat[1]
-    mode = resultat[0]
+    msg.encode()
 except:
-    msgt = msg
     print("pas cool")
 else:
-    msgt = resultat[1]
-    mode = resultat[0]
+
     print("cool")
 
 #var="C:"

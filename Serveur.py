@@ -20,7 +20,7 @@ def Serveur():
 
             msg = ""
             while msg != "kill" and msg != "disconect" and msg != "reset":
-                msg = conn.recv(4096).decode()
+                msg = conn.recv(8192).decode()
                 print(msg)
                 resultat = msg.split(":", 1)
                 try:
@@ -36,6 +36,9 @@ def Serveur():
                 if msgt == "ram":
                     reply = str(f"ram:{psutil.virtual_memory().percent}%")
                     conn.send(reply.encode())
+
+                elif msgt == "test":
+                    print("test")
 
                 elif msgt == "cpu":
                     reply = str(f"cpu:{psutil.cpu_percent()}%")
@@ -58,7 +61,7 @@ def Serveur():
                             reply = "erreur syntaxe"
                             conn.send(reply.encode())
                         else:
-                            conn.send(reply.encode())
+                            conn.send(reply.encode("cp1252", errors='replace'))
                     else:
                         reply = "cette os n'est pas compatible avec powershell !!!"
                         conn.send(reply.encode())
@@ -86,11 +89,10 @@ def Serveur():
                             reply = "erreur syntaxe"
                             conn.send(reply.encode())
                         else:
-                            conn.send(reply.encode())
+                            conn.send(reply.encode("cp1252", errors='replace'))
                     else:
                         reply = "cette os n'est pas windows !!!"
                         conn.send(reply.encode())
-
                 else:
                     reply = "veuillez tapez le commande de la manière suivante (nom de l'os:commande)"
                     conn.send(reply.encode())
