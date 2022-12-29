@@ -12,8 +12,8 @@ def Serveur():
         server_socket = socket.socket()
         server_socket.bind((host, port))
         server_socket.listen(1)
-        msg = ""
-        while msg != "kill" and msg != "reset":
+        msgt = ""
+        while msgt != "kill" and msgt != "reset":
             print("En attente du client")
             conn, address = server_socket.accept()
             print(f"Client connecté {address}")
