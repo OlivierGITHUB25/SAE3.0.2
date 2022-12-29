@@ -44,6 +44,10 @@ def Serveur():
                     reply = str(f"cpu:{psutil.cpu_percent()}%")
                     conn.send(reply.encode())
 
+                elif msgt == "name":
+                    reply = str(f"name:{socket.gethostname()}")
+                    conn.send(reply.encode())
+
                 elif msgt == "os":
                     reply = str(platform.system())
                     conn.send(reply.encode())
@@ -78,6 +82,20 @@ def Serveur():
                             conn.send(reply.encode())
                     else:
                         reply = "cette os n'est pas linux !!!"
+                        conn.send(reply.encode())
+
+                elif mode == "darwin":
+                    ostest  = str(platform.system())
+                    if ostest == "Darwin":
+                        rep = os.popen(f"{msgt}")
+                        reply = rep.read()
+                        if reply == "":
+                            reply = "erreur syntaxe"
+                            conn.send(reply.encode())
+                        else:
+                            conn.send(reply.encode())
+                    else:
+                        reply = "cette os n'est pas Darwin !!!"
                         conn.send(reply.encode())
 
                 elif mode == "windows":
